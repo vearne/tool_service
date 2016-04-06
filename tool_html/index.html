@@ -12,43 +12,22 @@
 
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script >
-		function base62_encode(){
-			var data = JSON.stringify({"mid":$("#mid").val()});
-			$.post("/base62", data, function(result){
-				console.info(result.ss);
-				$("#ss").val(result.ss);
-			}, "json");
-		}
-		function base62_decode(){
-			var data = JSON.stringify({"ss":$("#ss").val()});
-            $.post("/base62", data, function(result){
-                console.info(result.mid);
-                $("#mid").val(result.mid);
-            }, "json");
-		}
-	</script>
+    <style type="text/css">
+        body {
+                text-align: center;
+        }
+    </style>
 </head>
 <body>
 <table>
 <tr>
-	<th>base62的待编码内容</th>
-	<th>base62的待解码内容</th>
+	<td>
+        <a href="./tool-base62.html">base62编码转换</a>
+    </td>
 </tr>
 <tr>
 	<td>
-		<textarea id="mid" rows="10" cols="40"></textarea>
-	</td>
-	<td>
-		<textarea id="ss" rows="10" cols="40"></textarea>
-	</td>
-</tr>
-<tr>
-	<td>
-	<button class="btn btn-primary" onclick="javascript:base62_encode();" style="margin-bottom:10px;">BASE62编码<i class="icon-chevron-right icon-white"></i></button>
-	</td>
-	<td>
-	<button class="btn btn-primary" onclick="javascript:base62_decode();" style="margin-bottom:10px;">BASE62解码<i class="icon-chevron-right icon-white"></i></button>
+	    <a href='./tool-timestamp.html'>时间戳转换</a>	
 	</td>
 </tr>
 </table>
