@@ -14,14 +14,16 @@
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script >
 		function base62_encode(){
-			var data = JSON.stringify({"mid":$("#mid").val()});
+            var value = $.trim($("#mid").val());
+			var data = JSON.stringify({"mid":value});
 			$.post("/base62", data, function(result){
 				console.info(result.ss);
 				$("#ss").val(result.ss);
 			}, "json");
 		}
 		function base62_decode(){
-			var data = JSON.stringify({"ss":$("#ss").val()});
+            var value = $.trim($("#ss").val());
+			var data = JSON.stringify({"ss":value});
             $.post("/base62", data, function(result){
                 console.info(result.mid);
                 $("#mid").val(result.mid);

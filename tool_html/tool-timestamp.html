@@ -14,14 +14,17 @@
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script >
 		function timestamp_encode(){
-            var data = JSON.stringify({"date":$("#date").val()});
+            var value = $.trim($("#date").val());
+            var data = JSON.stringify({"date":value});
             $.post("/timestamp", data, function(result){
                 $("#sec").val(result.sec);
             }, "json");
             
 		}
 		function timestamp_decode(){
-            var data = JSON.stringify({"sec":parseInt($("#sec").val())});
+            var value = $.trim($("#sec").val());
+            value = parseInt(value);
+            var data = JSON.stringify({"sec": value});
             $.post("/timestamp", data, function(result){
                 $("#date").val(result.date);
             }, "json");
