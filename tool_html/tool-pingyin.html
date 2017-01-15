@@ -1,0 +1,49 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script >
+		function get_pingyin(){
+            var value = $.trim($("#content").val());
+			var data = JSON.stringify({"content":value});
+			$.post("/pingyin", data, function(result){
+				console.info(result.ss);
+				$("#pingyin").val(result.ss);
+			}, "json");
+		}
+	</script>
+</head>
+<body>
+<table>
+<tr>
+	<th>中文内容<br>形如: 西部世界</th>
+	<th>形如:xbsj</th>
+</tr>
+<tr>
+	<td>
+		<textarea id="content" rows="10" cols="40"></textarea>
+	</td>
+	<td>
+		<textarea id="pingyin" rows="10" cols="40"></textarea>
+	</td>
+</tr>
+<tr>
+	<td>
+	<button class="btn btn-primary" onclick="javascript:get_pingyin();" style="margin-bottom:10px;">提取拼音首字母<i class="icon-chevron-right icon-white"></i></button>
+	</td>
+	<td>
+	</td>
+</tr>
+</table>
+</body>
+</html>
