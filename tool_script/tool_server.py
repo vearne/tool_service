@@ -1,6 +1,7 @@
 #encoding=utf-8
 #!/usr/bin/python
 from mid_url import url_to_mid, mid_to_url 
+from pingyin_tool import get_pingyin
 from time_tool import datetime2secs, secs2datetime
 from tornado.escape import json_encode, json_decode
 import tornado.ioloop
@@ -43,8 +44,16 @@ class TimeStampHandler(tornado.web.RequestHandler):
             dd = {'date': d.strftime('%Y-%m-%d %H:%M:%S')}
             self.write(dd)
 
+class PingyinHandler(tornado.web.RequestHandler):
+    def post(self):
+        params = json_decode(self.request.body)
+        content = params.get("content")
+        dd = {'pingyin': get_pingyin(content)}
+        self.write(dd)
+
 application = tornado.web.Application([
     (r"/mid_url", MidURLHandler),
+    (r"/pingyin", PingyinHandler),
     (r"/timestamp", TimeStampHandler),
 ])
 
