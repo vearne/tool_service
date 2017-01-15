@@ -1,6 +1,6 @@
 #encoding=utf-8
 #!/usr/bin/python
-from base62 import mid2str, str2mid
+from mid_url import url_to_mid, mid_to_url 
 from time_tool import datetime2secs, secs2datetime
 from tornado.escape import json_encode, json_decode
 import tornado.ioloop
@@ -9,18 +9,18 @@ import sys
 import json
 from datetime import datetime
 
-class Base62Handler(tornado.web.RequestHandler):
+class MidURLHandler(tornado.web.RequestHandler):
     def post(self):
         params = json_decode(self.request.body)
         if params.get('mid'):
             mid = params.get('mid')
-            ss = mid2str(mid)
+            ss = mid_to_url(mid)
             print 'ss', ss
             dd = {'ss':ss}
             self.write(dd)
         else:
             ss = params.get('ss')
-            mid = str2mid(ss)
+            mid = url_to_mid(ss)
             print 'mid', mid
             dd = {'mid':mid}
             self.write(dd)
@@ -44,7 +44,7 @@ class TimeStampHandler(tornado.web.RequestHandler):
             self.write(dd)
 
 application = tornado.web.Application([
-    (r"/base62", Base62Handler),
+    (r"/mid_url", MidURLHandler),
     (r"/timestamp", TimeStampHandler),
 ])
 
