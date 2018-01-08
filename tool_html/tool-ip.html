@@ -31,7 +31,7 @@
             value = parseInt(value);
             var data = JSON.stringify({"integer": value});
             $.post("/ip", data, function(result){
-                $("#integer").val(result.ip);
+                $("#ip").val(result.ip);
             }, "json");
 		}
 	</script>
