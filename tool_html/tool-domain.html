@@ -10,6 +10,9 @@
             body {
                 padding-left: 20px;
             }
+            table td {
+                padding: 10px;
+            }
     </style>
 	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 	<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -31,23 +34,27 @@
 <h4><a href="/">返回首页</a></h4>
 <table>
 <tr>
-	<th>中文内容<br>形如: 西部世界</th>
-	<th>形如:xbsj</th>
+    <td>
+        <p>
+        免责声明:本功能仅用于个人学习、研究或欣赏。我们不保证内容的正确性。</p>
+        <p>
+        亲，想对你手上的域名做个估值，</br>
+        辛苦运营了一个网站, 现在到底值多少💰?<br/>
+        在下方的输入框，输入域名, 点击查询, 即刻知晓。
+        </p>
+
+    </td>
 </tr>
 <tr>
-	<td>
-		<textarea id="content" rows="10" cols="40"></textarea>
-	</td>
-	<td>
-		<textarea id="pingyin" rows="10" cols="40"></textarea>
-	</td>
+<td>
+    <input id="domain" value="baidu.com"></input>
+    <button class="btn btn-primary" style="margin-left:10px;"> 查询</button>
+</td>
 </tr>
 <tr>
-	<td>
-	<button class="btn btn-primary" onclick="javascript:get_pingyin();" style="margin-bottom:10px;">提取拼音首字母<i class="icon-chevron-right icon-white"></i></button>
-	</td>
-	<td>
-	</td>
+<td>
+    <div>查询结果:</div>
+</td>
 </tr>
 </table>
 </body>
