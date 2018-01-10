@@ -128,7 +128,8 @@ def evaluate(domain):
         dd['total_value'] = av + iv
         dd['comment'] = get_comment(av+iv)
         return dd
-    except:
+    except Exception, ex:
+        print ex
         dd['comment'] = '错误域名' 
         return dd 
 
@@ -199,8 +200,9 @@ def added_value(domain):
     baidu_count = get_baidu_include(domain)
     print "baidu include", baidu_count
     # 获取so
-    so_count = get_so_include(domain)
-    print "so include", so_count
+    so_count = 0
+    #so_count = get_so_include(domain)
+    #print "so include", so_count
     
     # 增加一定的随机因素
     base = hash(domain) % 9 * 0.1 + 9
