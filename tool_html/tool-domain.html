@@ -20,19 +20,36 @@
 	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script >
+		//显示加载数据
+		function ShowDiv() {
+			$("#loading").show();
+		}
+		//隐藏加载数据
+		function HiddenDiv() {
+			$("#loading").hide();
+		}
 		function get_domain_value(){
             var value = $.trim($("#domain").val());
 			var data = JSON.stringify({"domain":value});
-			$.post("/domain", data, function(result){
-				console.info(result);
-                var resHTML = '<p>查询结果:</p>'
-                resHTML += '<p>自身价值:￥' + result.itself_value + '</p>'
-                resHTML += '<p>附加价值:￥' + result.added_value + '</p>'
-                resHTML += '<p>总计价值:￥' + result.total_value + '</p>'
-                resHTML += result.comment
-				$("#domain_cost").html(resHTML);
-			}, "json");
+			$.ajax({
+				async: true,
+				beforeSend: ShowDiv, 
+				complete: HiddenDiv, 
+				type : 'POST',
+				url : '/domain',
+				data : data, 
+				success: function (result) {
+					console.info(result);
+					var resHTML = '<p>查询结果:</p>'
+					resHTML += '<p>自身价值:￥' + result.itself_value + '</p>'
+					resHTML += '<p>附加价值:￥' + result.added_value + '</p>'
+					resHTML += '<p>总计价值:￥' + result.total_value + '</p>'
+					resHTML += result.comment
+					$("#domain_cost").html(resHTML);
+				}
+			});
 		}
+		//HiddenDiv();
 	</script>
 </head>
 <body>
@@ -58,6 +75,7 @@
 </tr>
 <tr>
 <td>
+	<div id="loading" style="display: none;"><img src="/image/1.gif" alt=""/> 正在加载数据,请稍候...</div>
     <div id="domain_cost"></div>
 </td>
 </tr>
