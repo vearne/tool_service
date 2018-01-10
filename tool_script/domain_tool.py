@@ -62,11 +62,13 @@ def length_weight(domain):
         return 0
     base = 1
     if l <= 1:
+        return 10000
+    elif l <= 2:
         return 1000
-    if l <= 2:
-        return 100
-    if l <= 3:
-        base = 10 
+    elif l <= 3:
+        base = 100 
+    elif l <= 4:
+        base = 10
     
     # 尝试看看主域名中是否有英文单词
     # 有英文单词的域名更容易记忆，因此价值更高
@@ -118,7 +120,9 @@ def evaluate(domain):
     }
     try:
         iv = itself_value(domain)
+        iv = int(iv)
         av = added_value(domain)
+        av = int(av)
         dd['itself_value'] = iv
         dd['added_value'] = av
         dd['total_value'] = av + iv
