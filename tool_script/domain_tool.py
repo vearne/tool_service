@@ -81,12 +81,53 @@ def extract_count(value):
     #24,900
     #1亿8448万
     #100,000,000
-    if ',' in value:
+    if isinstance(value, unicode):
+        value = value.encode('utf-8')
 
-    pass
+    if ',' in value:
+        item_list = value.split(',')
+        x = ''.join(item_list)
+        return int(x)
+    
+    res = re.match(r'(\d+)亿(\d+)万', value)
+    if res:
+        v1 = res.group(1)
+        v2 = res.group(2)
+        return int(v1) * 1000000000 + int(v2) * 10000 
+
+    return int(value)
+
+
+def get_comment(value):
+    if value <= 1000:
+        return u"别看了，就值这么多了😂"
+    elif value <= 10000:
+        return u"了不起，广阔天地，大有可为😑" 
+    elif value <= 1000000:
+        return u"价值不菲，奇货可居啊!😋" 
+    else:
+        return u"土豪，咱们做朋友吧!!!😍"
+
 
 def evaluate(domain):
-    pass
+    dd = {
+        "itself_value": 0, 
+        "added_value": 0, 
+        "total_value": 0,
+        "comment": ""
+    }
+    try:
+        iv = itself_value(domain)
+        av = added_value(domain)
+        dd['itself_value'] = iv
+        dd['added_value'] = av
+        dd['total_value'] = av + iv
+        dd['comment'] = get_comment(av+iv)
+        return dd
+    except:
+        dd['comment'] = '错误域名' 
+        return dd 
+
 
 def itself_value(domain):
     total = 0
@@ -111,19 +152,18 @@ def get_baidu_include(domain):
 
     item_list = tree.xpath('//*[@id="1"]/div/div[1]/div/p[3]/span/b')
     value = '0'
-    # 1,493
-    # 1亿0000万 
-    # 2690000
-    # 9590
-    # 1亿8448万
     for item in item_list:
         value = item.text
-
+        
+    # 找到相关结果数约2个
     item_list = tree.xpath('//*[@id="content_left"]/div[1]/div/p[1]/b')
     for item in item_list:
-        value = item.text
+        temp = item.text
+        start = temp.find(u'约')
+        end = temp.find(u'个')
+        value = temp[start + 1:end]
 
-    print value
+    return extract_count(value.strip())
 
 def get_so_include(domain):
     url = 'https://www.so.com/s?q=site:' + domain 
@@ -132,51 +172,54 @@ def get_so_include(domain):
     tree   = etree.parse(StringIO(res.text), parser)
     item_list = tree.xpath('//*[@id="main"]/p')
     value = '0'
+    # 
     for item in item_list:
-        value = item.text
+        temp = item.text
+        start = temp.find(u'约')
+        start += 1
+        end = temp.find(u'个')
+        value = temp[start: end].strip()
 
     item_list = tree.xpath('//*[@id="main"]/div/ul/li/p[3]/text()')
     for item in item_list:
-        value = item
-    
-    start = value.find(u'约')
-    start += 1
-    end = value.find(u'个')
-    print value[start: end]
+        temp = item
+        start = temp.find(u'约')
+        start += 1
+        end = temp.find(u'个')
+        value = temp[start: end].strip()
+
+    return extract_count(value)
 
 def added_value(domain):
-    # 获取google
-    pass
-
+    # 获取baidu
+    baidu_count = get_baidu_include(domain)
+    print "baidu include", baidu_count
+    # 获取so
+    so_count = get_so_include(domain)
+    print "so include", so_count
+    
+    # 增加一定的随机因素
+    base = hash(domain) % 9 * 0.1 + 9
+    print 'base', base
+    
+    return base * (baidu_count + so_count)
 
 
 if __name__ == "__main__":
-    domain1 = 'baidu.com'
+    domain1 = 'vearne.cc'
     domain2 = "xiaorui.cc"
     domain3 = "umeng.com"
     domain4 = "tudou.com"
-    #domain4 = ".umeng"
-    #get_baidu_include(domain1)
-    #get_baidu_include(domain2)
-    #get_so_include(domain2)
-    #get_baidu_include(domain3)
-    #get_so_include(domain3)
-    #get_baidu_include(domain4)
-    #get_so_include(domain4)
-    #get_baidu_include(domain3)
-
-
-    #print itself_value(domain1)
-    #print itself_value(domain2)
-    #print itself_value(domain3)
-    #print itself_value(domain4)
-    #length_weight(domain1)
-    #length_weight(domain2)
-    #length_weight(domain3)
-    #length_weight(domain4)
-    #print judge_postfix_type(domain1)
-    #print judge_postfix_type(domain2)
-    #print judge_postfix_type(domain3)
-    #print judge_postfix_type(domain4)
+    domain5 = "abcdefxxx"
+    
+    #print added_value(domain1)
+    #print added_value(domain2)
+    #print added_value(domain3)
+    #print evaluate(domain1)
+    print evaluate(domain1)
+    print evaluate(domain2)
+    print evaluate(domain3)
+    print evaluate(domain4)
+    print evaluate(domain5)
 
 
