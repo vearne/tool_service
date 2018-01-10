@@ -28,6 +28,7 @@
                 var resHTML = '<p>查询结果:</p>'
                 resHTML += '<p>自身价值:￥' + result.itself_value + '</p>'
                 resHTML += '<p>附加价值:￥' + result.added_value + '</p>'
+                resHTML += '<p>总计价值:￥' + result.total_value + '</p>'
                 resHTML += result.comment
 				$("#domain_cost").html(resHTML);
 			}, "json");
