@@ -4,6 +4,7 @@ from mid_url import url_to_mid, mid_to_url
 from pingyin_tool import get_pingyin
 from time_tool import datetime2secs, secs2datetime
 from ip_tool  import int2ip, ip2int 
+from domain_tool  import evaluate 
 from tornado.escape import json_encode, json_decode
 import tornado.ioloop
 import tornado.web
@@ -65,12 +66,19 @@ class IPHandler(tornado.web.RequestHandler):
             dd = {'ip': int2ip(integer)}
             self.write(dd)
 
+class DomainHandler(tornado.web.RequestHandler):
+    def post(self):
+        params = json_decode(self.request.body)
+        domain = params.get("domain")
+        domain = domain.strip()
+        self.write(evaluate(domain))
 
 application = tornado.web.Application([
     (r"/mid_url", MidURLHandler),
     (r"/pingyin", PingyinHandler),
     (r"/timestamp", TimeStampHandler),
     (r"/ip", IPHandler),
+    (r"/domain", DomainHandler),
 ])
 
 if __name__ == "__main__":
