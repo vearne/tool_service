@@ -18,11 +18,10 @@ class MidURLHandler(tornado.web.RequestHandler):
         if params.get('mid'):
             mid = params.get('mid')
             ss = mid_to_url(mid)
-            print 'ss', ss
-            dd = {'ss':ss}
+            dd = {'url':ss}
             self.write(dd)
         else:
-            ss = params.get('ss')
+            ss = params.get('url')
             mid = url_to_mid(ss)
             print 'mid', mid
             dd = {'mid':mid}
