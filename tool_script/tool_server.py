@@ -13,10 +13,14 @@ import json
 from datetime import datetime
 
 class MidURLHandler(tornado.web.RequestHandler):
+    def options(self):
+        self.set_header("Allow","POST, OPTIONS");
+
     def post(self):
         params = json_decode(self.request.body)
         if params.get('mid'):
             mid = params.get('mid')
+            print "mid", mid
             ss = mid_to_url(mid)
             dd = {'url':ss}
             self.write(dd)
@@ -40,7 +44,7 @@ class TimeStampHandler(tornado.web.RequestHandler):
             self.write(dd)
         else:
             ss = params.get('sec')
-            print ss
+            ss = float(ss)
             d = secs2datetime(ss)
             dd = {'date': d.strftime('%Y-%m-%d %H:%M:%S')}
             self.write(dd)
@@ -49,7 +53,7 @@ class PingyinHandler(tornado.web.RequestHandler):
     def post(self):
         params = json_decode(self.request.body)
         content = params.get("content")
-        dd = {'pingyin': get_pingyin(content)}
+        dd = {'pinyin': get_pingyin(content)}
         self.write(dd)
 
 class IPHandler(tornado.web.RequestHandler):
@@ -73,11 +77,11 @@ class DomainHandler(tornado.web.RequestHandler):
         self.write(evaluate(domain))
 
 application = tornado.web.Application([
-    (r"/mid_url", MidURLHandler),
-    (r"/pingyin", PingyinHandler),
-    (r"/timestamp", TimeStampHandler),
-    (r"/ip", IPHandler),
-    (r"/domain", DomainHandler),
+    (r"/api/mid_url", MidURLHandler),
+    (r"/api/pinyin", PingyinHandler),
+    (r"/api/timestamp", TimeStampHandler),
+    (r"/api/ip", IPHandler),
+    (r"/api/domain", DomainHandler),
 ])
 
 if __name__ == "__main__":

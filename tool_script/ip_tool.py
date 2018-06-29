@@ -9,6 +9,7 @@ def ip2int(ip):
 
 
 def int2ip(integer):
+    integer = int(integer)
     item_list = []
     while integer > 0:
         item_list.append(str(integer % 256))
