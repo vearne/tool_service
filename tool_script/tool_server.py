@@ -11,11 +11,16 @@ import tornado.web
 import sys
 import json
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
 
 class MidURLHandler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(5)   #起线程池，由当前RequestHandler持有
+
     def options(self):
         self.set_header("Allow","POST, OPTIONS");
 
+
+    @tornado.gen.coroutine
     def post(self):
         params = json_decode(self.request.body)
         if params.get('mid'):
@@ -32,6 +37,9 @@ class MidURLHandler(tornado.web.RequestHandler):
             self.write(dd)
 
 class TimeStampHandler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(5)
+
+    @tornado.gen.coroutine
     def post(self):
         params = json_decode(self.request.body)
         if params.get('date'):
@@ -50,6 +58,9 @@ class TimeStampHandler(tornado.web.RequestHandler):
             self.write(dd)
 
 class PingyinHandler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(5)
+
+    @tornado.gen.coroutine
     def post(self):
         params = json_decode(self.request.body)
         content = params.get("content")
@@ -57,6 +68,9 @@ class PingyinHandler(tornado.web.RequestHandler):
         self.write(dd)
 
 class IPHandler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(5)
+
+    @tornado.gen.coroutine
     def post(self):
         params = json_decode(self.request.body)
         ip = params.get("ip")
@@ -70,6 +84,9 @@ class IPHandler(tornado.web.RequestHandler):
             self.write(dd)
 
 class DomainHandler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(20)
+
+    @tornado.gen.coroutine
     def post(self):
         params = json_decode(self.request.body)
         domain = params.get("domain")
