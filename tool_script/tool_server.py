@@ -106,5 +106,7 @@ if __name__ == "__main__":
     port = 9099
     if len(sys.argv) > 1:
         port = int(sys.argv[1])
-    application.listen(port)
+    http_server = tornado.httpserver.HTTPServer(application)
+    http_server.bind(port)
+    http_server.start(3) 
     tornado.ioloop.IOLoop.instance().start()
