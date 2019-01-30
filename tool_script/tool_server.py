@@ -106,7 +106,8 @@ if __name__ == "__main__":
     port = 9099
     if len(sys.argv) > 1:
         port = int(sys.argv[1])
-    http_server = tornado.httpserver.HTTPServer(application)
-    http_server.bind(port)
-    http_server.start(3) 
-    tornado.ioloop.IOLoop.instance().start()
+    server = tornado.httpserver.HTTPServer(application)
+    server.bind(port)
+    #server.start(2)  # forks one process per cpu
+    server.start(2)  # forks one process per cpu
+    tornado.ioloop.IOLoop.current().start()
