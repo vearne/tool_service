@@ -14,7 +14,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 
 class MidURLHandler(tornado.web.RequestHandler):
-    executor = ThreadPoolExecutor(5)   #起线程池，由当前RequestHandler持有
+    executor = ThreadPoolExecutor(20)   #起线程池，由当前RequestHandler持有
 
     def options(self):
         self.set_header("Allow","POST, OPTIONS");
@@ -37,7 +37,7 @@ class MidURLHandler(tornado.web.RequestHandler):
             self.write(dd)
 
 class TimeStampHandler(tornado.web.RequestHandler):
-    executor = ThreadPoolExecutor(5)
+    executor = ThreadPoolExecutor(20)
 
     @tornado.gen.coroutine
     def post(self):
@@ -58,7 +58,7 @@ class TimeStampHandler(tornado.web.RequestHandler):
             self.write(dd)
 
 class PingyinHandler(tornado.web.RequestHandler):
-    executor = ThreadPoolExecutor(5)
+    executor = ThreadPoolExecutor(20)
 
     @tornado.gen.coroutine
     def post(self):
@@ -68,7 +68,7 @@ class PingyinHandler(tornado.web.RequestHandler):
         self.write(dd)
 
 class IPHandler(tornado.web.RequestHandler):
-    executor = ThreadPoolExecutor(5)
+    executor = ThreadPoolExecutor(20)
 
     @tornado.gen.coroutine
     def post(self):
