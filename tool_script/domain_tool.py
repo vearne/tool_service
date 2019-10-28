@@ -21,9 +21,9 @@ INTERNATIONAL_POSTFIX = {
 
 from enum import Enum, unique
 from lxml import etree
-from StringIO import StringIO
 import requests
 import re
+import io
 
 
 def judge_postfix_type(domain):
@@ -152,7 +152,7 @@ def get_baidu_include(domain):
     url = 'http://www.baidu.com/s?wd=site:' + domain
     res = requests.get(url)
     parser = etree.HTMLParser()
-    tree   = etree.parse(StringIO(res.text), parser)
+    tree   = etree.parse(io.StringIO(res.text), parser)
 
     item_list = tree.xpath('//*[@id="1"]/div/div[1]/div/p[3]/span/b')
     value = '0'
