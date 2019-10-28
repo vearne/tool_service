@@ -83,9 +83,6 @@ def extract_count(value):
     #24,900
     #1亿8448万
     #100,000,000
-    if isinstance(value, unicode):
-        value = value.encode('utf-8')
-
     if ',' in value:
         item_list = value.split(',')
         x = ''.join(item_list)
