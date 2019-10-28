@@ -56,7 +56,7 @@ def url_to_mid(url):
     3486913690606804L
     '''
     url = str(url)[::-1]
-    size = len(url) / 4 if len(url) % 4 == 0 else len(url) / 4 + 1
+    size = int(len(url) / 4) if len(url) % 4 == 0 else int(len(url) / 4) + 1
     result = []
     for i in range(size):
         s = url[i * 4: (i + 1) * 4][::-1]
@@ -86,7 +86,10 @@ def mid_to_url(midint):
     'yAt1n2xRa'
     '''
     midint = str(midint)[::-1]
-    size = len(midint) / 7 if len(midint) % 7 == 0 else len(midint) / 7 + 1
+    print("midint", midint)
+    print("len(midint)", len(midint)/7)
+    size = int(len(midint) / 7) if len(midint) % 7 == 0 else int(len(midint) / 7) + 1
+    print("size", size)
     result = []
     for i in range(size):
         s = midint[i * 7: (i + 1) * 7][::-1]
@@ -98,7 +101,7 @@ def mid_to_url(midint):
     result.reverse()
     return ''.join(result)
 
-# print(mid_to_url(4059946218295389))
+print(mid_to_url(4059946218295389))
  
  
 
