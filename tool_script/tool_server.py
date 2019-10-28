@@ -25,14 +25,14 @@ class MidURLHandler(tornado.web.RequestHandler):
         params = json_decode(self.request.body)
         if params.get('mid'):
             mid = params.get('mid')
-            print "mid", mid
+            print('mid', mid)
             ss = mid_to_url(mid)
             dd = {'url':ss}
             self.write(dd)
         else:
             ss = params.get('url')
             mid = url_to_mid(ss)
-            print 'mid', mid
+            print('mid', mid)
             dd = {'mid':mid}
             self.write(dd)
 
@@ -44,9 +44,8 @@ class TimeStampHandler(tornado.web.RequestHandler):
         params = json_decode(self.request.body)
         if params.get('date'):
             d = params.get('date')
-            print d
+            print(d)
             d = datetime.strptime(d, '%Y-%m-%d %H:%M:%S')
-            print d
             sec = datetime2secs(d)
             dd = {'sec':sec}
             self.write(dd)
@@ -79,7 +78,7 @@ class IPHandler(tornado.web.RequestHandler):
             self.write(dd)
         else:
             integer = params.get("integer")
-            print integer
+            print(integer)
             dd = {'ip': int2ip(integer)}
             self.write(dd)
 
@@ -102,12 +101,11 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    print 'starting....'
+    print('starting....')
     port = 9099
     if len(sys.argv) > 1:
         port = int(sys.argv[1])
     server = tornado.httpserver.HTTPServer(application)
     server.bind(port)
-    #server.start(2)  # forks one process per cpu
     server.start(2)  # forks one process per cpu
     tornado.ioloop.IOLoop.current().start()

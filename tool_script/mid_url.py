@@ -98,7 +98,7 @@ def mid_to_url(midint):
     result.reverse()
     return ''.join(result)
 
-# print mid_to_url(4059946218295389)
+# print(mid_to_url(4059946218295389))
  
  
 

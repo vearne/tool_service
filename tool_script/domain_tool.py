@@ -128,8 +128,8 @@ def evaluate(domain):
         dd['total_value'] = av + iv
         dd['comment'] = get_comment(av+iv)
         return dd
-    except Exception, ex:
-        print ex
+    except Exception as ex:
+        print(ex)
         dd['comment'] = '错误域名' 
         return dd 
 
@@ -151,7 +151,6 @@ def itself_value(domain):
 def get_baidu_include(domain):
     url = 'http://www.baidu.com/s?wd=site:' + domain
     res = requests.get(url)
-    #print t.text
     parser = etree.HTMLParser()
     tree   = etree.parse(StringIO(res.text), parser)
 
@@ -198,15 +197,14 @@ def get_so_include(domain):
 def added_value(domain):
     # 获取baidu
     baidu_count = get_baidu_include(domain)
-    print "baidu include", baidu_count
+    print("baidu include", baidu_count)
     # 获取so
     so_count = 0
     #so_count = get_so_include(domain)
-    #print "so include", so_count
     
     # 增加一定的随机因素
     base = hash(domain) % 9 * 0.1 + 9
-    print 'base', base
+    print('base', base)
     
     return base * (baidu_count + so_count)
 
@@ -222,10 +220,10 @@ if __name__ == "__main__":
     #print added_value(domain2)
     #print added_value(domain3)
     #print evaluate(domain1)
-    print evaluate(domain1)
-    print evaluate(domain2)
-    print evaluate(domain3)
-    print evaluate(domain4)
-    print evaluate(domain5)
+    print(evaluate(domain1))
+    print(evaluate(domain2))
+    print(evaluate(domain3))
+    print(evaluate(domain4))
+    print(evaluate(domain5))
 
 
