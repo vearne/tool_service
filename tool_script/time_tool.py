@@ -8,4 +8,5 @@ def datetime2secs(mydate):
     return time.mktime(mydate.timetuple())
 
 def secs2datetime(ts):
-    return datetime.fromtimestamp(ts)
+    tz_utc_8 = timezone(timedelta(hours=8))
+    return datetime.fromtimestamp(ts, tz_utc_8)
