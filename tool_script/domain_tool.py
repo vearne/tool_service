@@ -25,6 +25,15 @@ import requests
 import re
 import io
 
+headers = {
+    "Connection": "keep-alive",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,vi;q=0.7,zh-TW;q=0.6,ca;q=0.5",
+    "Cookie": "BIDUPSID=ACB2E7C2A79B2BF84CE6A287963AAA97; PSTM=1542116688; BAIDUID=1C63C1F0F74F16C01905ABC97FA10021:FG=1; BDUSS=XhnWnZVYzZmQWpoSzZ1eU43UVp4Vk5GMjQ2VjV6NDZsQzNNaTRUU1d1Y21Qb3hlRVFBQUFBJCQAAAAAAAAAAAEAAADweDd4YXNkd29zaGlhb3RpYW4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACaxZF4msWReW; BD_UPN=123253; MCITY=-%3A; COOKIE_SESSION=5060189_0_6_1_4_63_0_4_1_5_0_8_888_0_0_0_1585663882_0_1590723174%7C6%230_0_1590723174%7C1"
+}
+
 
 def judge_postfix_type(domain):
     item_list = domain.split('.')
@@ -147,7 +156,7 @@ def itself_value(domain):
 
 def get_baidu_include(domain):
     url = 'http://www.baidu.com/s?wd=site:' + domain
-    res = requests.get(url)
+    res = requests.get(url, headers=headers)
     parser = etree.HTMLParser()
     tree   = etree.parse(io.StringIO(res.text), parser)
 
@@ -167,13 +176,13 @@ def get_baidu_include(domain):
     return extract_count(value.strip())
 
 def get_so_include(domain):
-    url = 'https://www.so.com/s?q=site:' + domain 
-    res = requests.get(url)
+    url = 'https://www.so.com/s?q=site:' + domain
+    res = requests.get(url, headers=headers)
     parser = etree.HTMLParser()
-    tree   = etree.parse(StringIO(res.text), parser)
+    tree   = etree.parse(io.StringIO(res.text), parser)
     item_list = tree.xpath('//*[@id="main"]/p')
     value = '0'
-    # 
+    #
     for item in item_list:
         temp = item.text
         start = temp.find(u'约')
@@ -196,9 +205,10 @@ def added_value(domain):
     baidu_count = get_baidu_include(domain)
     print("baidu include", baidu_count)
     # 获取so
-    so_count = 0
-    #so_count = get_so_include(domain)
-    
+    so_count = get_so_include(domain)
+    print("so include", so_count)
+
+
     # 增加一定的随机因素
     base = hash(domain) % 9 * 0.1 + 9
     print('base', base)
@@ -208,19 +218,15 @@ def added_value(domain):
 
 if __name__ == "__main__":
     domain1 = 'vearne.cc'
-    domain2 = "xiaorui.cc"
-    domain3 = "umeng.com"
-    domain4 = "tudou.com"
-    domain5 = "abcdefxxx"
+    # domain2 = "xiaorui.cc"
+    # domain3 = "umeng.com"
+    # domain4 = "tudou.com"
+    # domain5 = "abcdefxxx"
     
-    #print added_value(domain1)
-    #print added_value(domain2)
-    #print added_value(domain3)
-    #print evaluate(domain1)
     print(evaluate(domain1))
-    print(evaluate(domain2))
-    print(evaluate(domain3))
-    print(evaluate(domain4))
-    print(evaluate(domain5))
+    # print(evaluate(domain2))
+    # print(evaluate(domain3))
+    # print(evaluate(domain4))
+    # print(evaluate(domain5))
 
 
