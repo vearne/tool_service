@@ -42,6 +42,7 @@ def judge_postfix_type(domain):
         if item:
             temp_list.append(item)
 
+    print(item_list)
     if len(temp_list) <= 1:
         raise Exception("错误域名")
 
@@ -56,7 +57,7 @@ def judge_postfix_type(domain):
 
 def is_en_word(word):
     url = 'http://www.iciba.com/' + word
-    res = requests.get(url)
+    res = requests.get(url, headers=headers)
     if res.status_code == 200:
         return True
     return False
@@ -124,11 +125,14 @@ def evaluate(domain):
         "total_value": 0,
         "comment": ""
     }
+    print('----xxxx---')
     try:
         iv = itself_value(domain)
         iv = int(iv)
+
         av = added_value(domain)
         av = int(av)
+
         dd['itself_value'] = iv
         dd['added_value'] = av
         dd['total_value'] = av + iv
@@ -141,9 +145,8 @@ def evaluate(domain):
 
 
 def itself_value(domain):
-    total = 0
     tp = judge_postfix_type(domain)
-    tp_weight = 0
+    print("tp", tp)
     if tp == '国际域名':
         tp_weight = 5
     elif tp == '中国大陆域名':
@@ -151,12 +154,15 @@ def itself_value(domain):
     else:
         tp_weight = 2 
 
-    total = 10 * tp_weight * length_weight(domain) 
+    total = 0
+    total = 10 * tp_weight * length_weight(domain)
+    print("total", total)
     return total
 
 def get_baidu_include(domain):
     url = 'http://www.baidu.com/s?wd=site:' + domain
     res = requests.get(url, headers=headers)
+    print(res.status_code)
     parser = etree.HTMLParser()
     tree   = etree.parse(io.StringIO(res.text), parser)
 
@@ -217,14 +223,14 @@ def added_value(domain):
 
 
 if __name__ == "__main__":
-    domain1 = 'vearne.cc'
-    # domain2 = "xiaorui.cc"
+    # domain1 = 'vearne.cc'
+    domain2 = "xiaorui.cc"
     # domain3 = "umeng.com"
     # domain4 = "tudou.com"
     # domain5 = "abcdefxxx"
     
-    print(evaluate(domain1))
-    # print(evaluate(domain2))
+    # print(evaluate(domain1))
+    print(evaluate(domain2))
     # print(evaluate(domain3))
     # print(evaluate(domain4))
     # print(evaluate(domain5))
