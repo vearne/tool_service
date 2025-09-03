@@ -10,7 +10,6 @@ IMAGE_NAME = registry.cn-hangzhou.aliyuncs.com/vearne/$(COMMAND_NAME):$(DOCKER_T
 
 .PHONY: image
 image:
-	image:
 	docker build --rm \
 		-f ./build/Dockerfile  \
 		-t $(IMAGE_NAME) .
