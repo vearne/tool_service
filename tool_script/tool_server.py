@@ -4,11 +4,10 @@ from mid_url import url_to_mid, mid_to_url
 from pingyin_tool import get_pingyin
 from ip_tool import int2ip, ip2int
 from domain_tool import evaluate
-from tornado.escape import json_encode, json_decode
-import tornado.ioloop
+from base64_tool import base64_encode, base64_decode
+from tornado.escape import json_decode
 import tornado.web
 import sys
-from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 import arrow
 
@@ -97,12 +96,30 @@ class DomainHandler(tornado.web.RequestHandler):
         self.write(evaluate(domain))
 
 
+class Base64Handler(tornado.web.RequestHandler):
+    executor = ThreadPoolExecutor(20)
+
+    @tornado.gen.coroutine
+    def post(self):
+        params = json_decode(self.request.body)
+        original_str = params.get("originalString")
+        if original_str:
+            dd = {'encodedString': base64_encode(original_str)}
+            self.write(dd)
+        else:
+            encoded_str = params.get("encodedString")
+            dd = {'originalString': base64_decode(encoded_str)}
+            self.write(dd)
+
+
+
 application = tornado.web.Application([
     (r"/api/mid_url", MidURLHandler),
     (r"/api/pinyin", PingyinHandler),
     (r"/api/timestamp", TimeStampHandler),
     (r"/api/ip", IPHandler),
     (r"/api/domain", DomainHandler),
+    (r"/api/base64", Base64Handler),
 ])
 
 if __name__ == "__main__":
