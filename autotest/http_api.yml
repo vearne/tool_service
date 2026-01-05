@@ -1,0 +1,149 @@
+- id: 1
+  desc: "【weibo】ID转换-1"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/mid_url"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "mid": "4064159777231488"
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/url"
+      expected: "EqV5vuleU"
+
+- id: 2
+  desc: "【weibo】ID转换-2"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/mid_url"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "url": "EqV5vuleU"
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/mid"
+      expected: 4064159777231488
+
+- id: 3
+  desc: "时间戳转换-1"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/timestamp"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "date": "2016-01-01 12:35:10"
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/sec"
+      expected: 1451622910
+
+- id: 4
+  desc: "时间戳转换-2"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/timestamp"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "sec": 1451622910
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/date"
+      expected: "2016-01-01 12:35:10"
+
+- id: 5
+  desc: "IP和整数互转-1"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/ip"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "ip": "192.168.1.100"
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/integer"
+      expected: 3232235876
+
+- id: 6
+  desc: "IP和整数互转-2"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/ip"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "integer": 3232235876
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/ip"
+      expected: "192.168.1.100"
+
+
+- id: 7
+  desc: "base64转换"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/base64"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "originalString": "hello world"
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/encodedString"
+      expected: "aGVsbG8gd29ybGQ="
+
+- id: 8
+  desc: "base64转换"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/base64"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "encodedString": "aGVsbG8gd29ybGQ="
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/originalString"
+      expected: "hello world"
+
+
+
+
+

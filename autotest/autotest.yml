@@ -1,0 +1,30 @@
+# my global config
+global:
+  #  worker_num: 5
+  worker_num: 5
+  # default: true
+  ignore_testcase_fail: true
+  debug: false
+  # Timeout setting for each request
+  request_timeout: 5s
+  
+  logger:
+    # 1. "info"
+    # 2. "debug"
+    # 3. "error"
+    level: "info"
+    filepath: "/var/log/test/autotest.log"
+  report:
+    dir_path: "/var/log/test/report/"
+
+http_rule_files:
+  - "./http_api.yml"
+
+environments:
+  dev:
+    HOST: "localhost:9099"
+#  staging:
+#    HOST: "staging.example.com"
+#  prod:
+#    HOST: "api.example.com"
+
