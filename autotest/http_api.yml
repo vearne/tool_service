@@ -143,6 +143,43 @@
       xpath: "/originalString"
       expected: "hello world"
 
+- id: 9
+  desc: "大小写转换"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/upper_lower_case"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "lowerString": "hello world"
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/upperString"
+      expected: "HELLO WORLD"
+
+- id: 10
+  desc: "大小写转换"
+  request:
+    method: "post"
+    url: "http://{{ HOST }}/api/upper_lower_case"
+    headers:
+      - "Content-Type: application/json"
+    body: |
+      {
+        "upperString": "HELLO WORLD"
+      }
+  rules:
+    - name: "HttpStatusEqualRule"
+      expected: 200
+    - name: "HttpBodyEqualRule"
+      xpath: "/lowerString"
+      expected: "hello world"
+
+
 
 
 

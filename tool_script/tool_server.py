@@ -49,6 +49,10 @@ class Base64Request(BaseModel):
     originalString: Optional[str] = None
     encodedString: Optional[str] = None
 
+class UpperLowerRequest(BaseModel):
+    upperString: Optional[str] = None
+    lowerString: Optional[str] = None
+
 # --- Route Handlers ---
 
 @app.post("/api/mid_url")
@@ -107,6 +111,14 @@ async def handle_base64(params: Base64Request):
         return {'encodedString': base64_encode(params.originalString)}
     else:
         return {'originalString': base64_decode(params.encodedString)}
+
+@app.post("/api/upper_lower_case")
+async def handle_base64(params: UpperLowerRequest):
+    if params.lowerString:
+        return {'upperString': params.lowerString.upper()}
+    else:
+        return {'lowerString': params.upperString.lower()}
+
 
 if __name__ == "__main__":
     print('starting....')
